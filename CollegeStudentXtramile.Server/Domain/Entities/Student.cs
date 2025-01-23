@@ -15,4 +15,7 @@ public class Student : BaseEntity
 
     public DateOnly DateOfBirth { get; set; }
 
+    public string FullName => $"{FirstName} {LastName}";
+    public int Age => DateTime.UtcNow.Year - DateOfBirth.Year;
+
 }

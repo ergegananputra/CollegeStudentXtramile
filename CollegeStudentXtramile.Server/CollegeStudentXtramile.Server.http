@@ -4,3 +4,8 @@ GET {{CollegeStudentXtramile.Server_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+GET {{CollegeStudentXtramile.Server_HostAddress}}/api/v1/students
+Accept: application/json
+
+###

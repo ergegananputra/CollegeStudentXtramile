@@ -3,7 +3,10 @@ using CollegeStudentXtramile.Server.Api.Resources.Responses;
 using CollegeStudentXtramile.Server.Domain.Dtos;
 using CollegeStudentXtramile.Server.Domain.Entities;
 using CollegeStudentXtramile.Server.Domain.Interfaces;
+using CollegeStudentXtramile.Server.Utils.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 
 namespace CollegeStudentXtramile.Server.Api.Controllers.V1;
@@ -36,7 +39,7 @@ public class StudentController : ControllerBase
                 pagination: students
             );
 
-            var result = new BaseResponseJSON<BasePagination<Student>>(
+            var result = new BaseResponseJSON<object>(
                 Message: "Students fetched successfully",
                 Data: paginate
             );
@@ -93,6 +96,22 @@ public class StudentController : ControllerBase
                 Data: newStudent
             );
             return Ok(result);
+        }
+        catch (DbUpdateException ex) when (ex.IsDuplicateKeyException())
+        {
+            _logger.LogError(ex, "[StudentController/CreateStudent] - Duplicate key error while creating student");
+
+            var errors = new Dictionary<string, List<string>>
+            {
+                { "Id", new List<string> { "A student with the same ID already exists" } }
+            };
+
+            return Conflict(new ErrorResponseJSON(
+                TraceId: null, 
+                Title: "A student with the same ID already exists",
+                Errors: errors
+                )
+             );
         }
         catch (Exception ex)
         {

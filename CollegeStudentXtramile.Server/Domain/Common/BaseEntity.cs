@@ -16,4 +16,9 @@ public abstract class BaseEntity
     {
         DeletedAt = DateTimeOffset.UtcNow;
     }
+
+    public void Recover()
+    {
+        DeletedAt = null;
+    }
 }

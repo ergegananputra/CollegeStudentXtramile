@@ -13,5 +13,6 @@ public class Student : BaseEntity
 
     public string? LastName { get; set; }
 
-    public DateTimeOffset DateOfBirth { get; set; }
+    public DateOnly DateOfBirth { get; set; }
+
 }

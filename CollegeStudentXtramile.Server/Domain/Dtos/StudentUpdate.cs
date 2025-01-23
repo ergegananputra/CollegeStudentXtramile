@@ -5,5 +5,5 @@ public record class StudentUpdate
     string Id,
     string? FirstName,
     string? LastName,
-    DateTimeOffset? DateOfBirth
+    DateOnly? DateOfBirth
 );

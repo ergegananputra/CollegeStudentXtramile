@@ -19,7 +19,29 @@ public class StudentRepository : IStudentRepository
 
     public async Task<Student> CreateStudent(Student student)
     {
-        _context.Students.Add(student);
+        var existingStudent = await _context.Students.FindAsync(student.Id);
+
+        if (existingStudent != null)
+        {
+            if (existingStudent.DeletedAt == null)
+            {
+                // The code for generating error
+                _context.Entry(existingStudent).State = EntityState.Detached;
+                _context.Students.Add(student);
+            }
+
+            existingStudent.Recover();
+            existingStudent.FirstName = student.FirstName;
+            existingStudent.LastName = student.LastName;
+            existingStudent.DateOfBirth = student.DateOfBirth;
+            existingStudent.UpdateTimestamp();
+
+        }
+        else
+        {
+            _context.Students.Add(student);
+        }
+
         await _context.SaveChangesAsync();
         return student;
     }
@@ -28,7 +50,7 @@ public class StudentRepository : IStudentRepository
     {
         var student = await _context.Students.FindAsync(id);
 
-        if (student != null)
+        if (student == null || student.DeletedAt != null)
         {
             return null;
         }
@@ -42,7 +64,7 @@ public class StudentRepository : IStudentRepository
     {
         var existingStudent = _context.Students.Find(student.Id);
 
-        if (existingStudent == null)
+        if (existingStudent == null || existingStudent.DeletedAt != null)
         {
             return null;
         }
@@ -59,23 +81,31 @@ public class StudentRepository : IStudentRepository
 
     public async Task<Student?> Student(string id)
     {
-        return await _context.Students.FindAsync(id);
+        var student = await _context.Students.FindAsync(id);
+
+        if (student == null || student.DeletedAt != null)
+        {
+            return null;
+        }
+
+        return student;
     }
 
     public async Task<Pagination<Student>> Students(string? keyword = null, int? page = null, int? limit = null)
     {
-        var total = await _context.Students.CountAsync();
         var query = _context.Students.AsQueryable();
         if (!string.IsNullOrWhiteSpace(keyword))
         {
             query = query.Where(x => x.FirstName.Contains(keyword) || (x.LastName != null && x.LastName.Contains(keyword)));
         }
-        
+
+        query = query.Where(x => x.DeletedAt == null);
+
+        var total = await query.CountAsync();
         var p = page ?? PaginationConstants.Page;
         var l = limit ??= PaginationConstants.Limit;
 
         var students = await query
-            .Where(x => x.DeletedAt == null)
             .Skip((p - 1) * l)
             .Take(l)
             .ToListAsync();

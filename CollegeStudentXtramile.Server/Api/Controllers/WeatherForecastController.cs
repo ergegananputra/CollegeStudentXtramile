@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace CollegeStudentXtramile.Server.Controllers
+namespace CollegeStudentXtramile.Server.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]

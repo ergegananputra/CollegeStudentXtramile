@@ -71,7 +71,7 @@ const submitForm = async () => {
       </ol>
     </nav>
 
-    <h2>{{ isEditMode ? 'Edit Student' : 'Create New Student' }}</h2>
+    <h2>{{ isEditMode ? 'Edit Student' : 'New Student' }}</h2>
     <form @submit.prevent="submitForm">
       <div class="mb-3">
         <label for="studentId" class="form-label">Student ID</label>

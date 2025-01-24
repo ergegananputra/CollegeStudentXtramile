@@ -106,6 +106,7 @@ public class StudentRepository : IStudentRepository
         var l = limit ??= PaginationConstants.Limit;
 
         var students = await query
+            .OrderBy(x => x.CreatedAt)
             .Skip((p - 1) * l)
             .Take(l)
             .ToListAsync();

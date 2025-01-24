@@ -74,14 +74,14 @@ const submitForm = async () => {
     <h2>{{ isEditMode ? 'Edit Student' : 'New Student' }}</h2>
     <form @submit.prevent="submitForm">
       <div class="mb-3">
-        <label for="studentId" class="form-label">Student ID</label>
+        <label for="studentId" class="form-label"><i class="bi bi-person-badge-fill me-2"></i>Student ID</label>
         <input type="text" class="form-control" id="studentId" v-model="studentId" :readonly="isEditMode" required>
         <div class="col">
           <div class="text-danger" v-for="(errMsg, index) in errors.Id" :key="index">{{ errMsg }}</div>
         </div>
       </div>
       <div class="mb-3">
-        <label for="firstName" class="form-label">Name</label>
+        <label for="firstName" class="form-label"><i class="bi bi-person-fill me-2"></i>Name</label>
         <div class="input-group">
           <input type="text" class="form-control" id="firstName" placeholder="First Name" v-model="firstName" required>
           <input type="text" class="form-control" id="lastName" placeholder="Last Name" v-model="lastName">
@@ -92,13 +92,14 @@ const submitForm = async () => {
         </div>
       </div>
       <div class="mb-3">
-        <label for="dob" class="form-label">Date of Birth</label>
+        <label for="dob" class="form-label"><i class="bi bi-calendar-event-fill me-2"></i>Date of Birth</label>
         <input type="date" class="form-control" id="dob" v-model="dob" required>
         <div class="col">
           <div class="text-danger" v-for="(errMsg, index) in errors.DateOfBirth" :key="index">{{ errMsg }}</div>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update' : 'Submit' }}</button>
+
+      <button type="submit" class="btn btn-success mt-4">{{ isEditMode ? 'Update' : 'Submit' }}</button>
     </form>
   </div>
 </template>

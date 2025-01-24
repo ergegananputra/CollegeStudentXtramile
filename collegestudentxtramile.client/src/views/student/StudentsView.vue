@@ -75,13 +75,13 @@ watch([keyword, page, limit], fetchStudentsDebounce, { immediate: true });
       </div>
       <div class="col-5">
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search student by name" v-model="keyword" @input="fetchStudents" />
+          <input type="text" class="form-control" placeholder="Search student" v-model="keyword" @input="fetchStudents" />
           <button class="btn btn-outline-secondary" type="button" @click="fetchStudents">Search</button>
         </div>
       </div>
     </div>
 
-    <table class="table table-striped">
+    <table class="table table-striped cstable">
       <thead>
         <tr class="table-secondary">
           <th scope="col">ID</th>
@@ -90,16 +90,21 @@ watch([keyword, page, limit], fetchStudentsDebounce, { immediate: true });
           <th scope="col"></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody v-if="students.length > 0">
         <tr v-for="student in students" :key="student.id">
           <td>{{ student.id }}</td>
           <td>{{ student.fullName }}</td>
           <td>{{ student.age }}</td>
           <td class="text-end">
-            <router-link class="btn btn-outline-secondary btn-sm me-1" :to="`/students/${student.id}`"><i class="bi bi-eye-fill"></i></router-link>
+            <router-link class="btn btn-outline-primary btn-sm me-1" :to="`/students/${student.id}`"><i class="bi bi-eye-fill"></i></router-link>
             <router-link class="btn btn-outline-secondary btn-sm me-1" :to="`/students/${student.id}/edit`"><i class="bi bi-pen-fill"></i></router-link>
             <button class="btn btn-outline-danger btn-sm me-1" @click="confirmDeleteStudent(student)"><i class="bi bi-trash-fill"></i></button>
           </td>
+        </tr>
+      </tbody>
+      <tbody v-else>
+        <tr>
+          <td colspan="4" class="text-center">No students found</td>
         </tr>
       </tbody>
     </table>
@@ -113,7 +118,7 @@ watch([keyword, page, limit], fetchStudentsDebounce, { immediate: true });
       <div class="col-auto me-3">
         <div class="input-group input-group-sm">
           <span class="input-group-text">Show</span>
-          <select class="form-control" id="limit" v-model="limit" @change="fetchStudents">
+          <select class="form-control" id="limit" v-model="limit">
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="15">15</option>

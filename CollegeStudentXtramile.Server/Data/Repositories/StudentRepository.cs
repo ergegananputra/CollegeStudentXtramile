@@ -96,7 +96,12 @@ public class StudentRepository : IStudentRepository
         var query = _context.Students.AsQueryable();
         if (!string.IsNullOrWhiteSpace(keyword))
         {
-            query = query.Where(x => x.FirstName.Contains(keyword) || (x.LastName != null && x.LastName.Contains(keyword)));
+            query = query.Where(
+                x => 
+                    x.FirstName.ToLower().Contains(keyword.ToLower()) || 
+                    (x.LastName != null && x.LastName.ToLower().Contains(keyword.ToLower())) ||
+                    x.Id.ToLower().Contains(keyword.ToLower())
+                );
         }
 
         query = query.Where(x => x.DeletedAt == null);

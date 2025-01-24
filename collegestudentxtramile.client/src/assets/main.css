@@ -13,3 +13,13 @@ body {
     background-color: #d6d8c280;
     backdrop-filter: blur(7px); 
 }
+
+/* Breadcrumb */
+.breadcrumb-item {
+    color: rgb(37, 36, 36) !important;
+    text-decoration: none;
+    transition: ease all 300ms;
+}
+a.breadcrumb-item:hover {
+    color: rgb(129, 129, 129) !important;
+}

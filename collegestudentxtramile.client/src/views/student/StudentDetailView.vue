@@ -28,7 +28,7 @@ const formattedDateOfBirth = computed(() => {
 </script>
 
 <template>
-  <div>
+  <div >
 
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
@@ -44,13 +44,12 @@ const formattedDateOfBirth = computed(() => {
 
       <!-- float right icons -->
       <div class="col text-end">
-        <router-link v-if="student" :to="`/students/${student.id}/edit`" class="btn btn-primary btn-sm">
+        <router-link v-if="student" :to="`/students/${student.id}/edit`" class="btn btn-secondary btn-sm">
           <i class="bi bi-pencil"></i> Edit
         </router-link>
       </div>
 
     </div>
-    <hr>
 
     <div v-if="student" class="fs-5 fw-medium">
 
@@ -95,6 +94,13 @@ const formattedDateOfBirth = computed(() => {
       </div>
 
     </div>
+    <div v-else class="fs-5 fw-medium">
+      <div class="alert alert-secondary" role="alert">
+        <i class="bi bi-info-circle me-2"></i>
+        Unable to retrieve student information
+      </div>
+    </div>
+
   </div>
 </template>
 
